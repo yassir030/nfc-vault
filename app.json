@@ -25,13 +25,22 @@
       "compileSdkVersion": 34,
       "targetSdkVersion": 34,
       "newArchEnabled": false,
-      "permissions": ["android.permission.NFC", "android.permission.VIBRATE"],
+      "permissions": [
+        "android.permission.NFC",
+        "android.permission.VIBRATE",
+        "android.permission.BIND_NFC_SERVICE"
+      ],
       "intentFilters": [
         {
           "action": "android.nfc.cardemulation.action.HOST_APDU_SERVICE",
           "data": {
             "mimeType": "application/vnd.android.drm"
-          }
+          },
+          "category": "android.intent.category.DEFAULT"
+        },
+        {
+          "action": "android.nfc.action.TAG_DISCOVERED",
+          "category": "android.intent.category.DEFAULT"
         }
       ]
     },
@@ -41,6 +50,9 @@
     "plugins": [
       [
         "react-native-nfc-manager"
+      ],
+      [
+        "./plugins/withNfcHce"
       ]
     ],
     "extra": {

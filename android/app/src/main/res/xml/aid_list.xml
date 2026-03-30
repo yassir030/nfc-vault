@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aid-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <aid-group android:description="NFC Vault Payment AIDs">
+        <aid android:name="F0000000041010" />
+        <aid android:name="F000000004101001" />
+        <aid android:name="A0000000031010" />
+        <aid android:name="A000000003101001" />
+        <aid android:name="A0000000041010" />
+        <aid android:name="A000000004101001" />
+    </aid-group>
+    <aid-group android:description="NFC Vault Transport AIDs">
+        <aid android:name="325041592E5359532E4444463031" />
+        <aid android:name="A0000001524010" />
+        <aid android:name="A00000015240101" />
+    </aid-group>
+</aid-list>
