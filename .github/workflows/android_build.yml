@@ -92,6 +92,11 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x android/gradlew
 
+    - name: Validate Gradle wrapper
+      run: |
+        cd android
+        ./gradlew --version
+
     - name: Build Android APK (Universal)
       run: |
         cd android
