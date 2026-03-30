@@ -31,23 +31,20 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Pre-Accept All Android Licenses
+    - name: Inject Android Licenses Manually
       run: |
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+        mkdir -p $ANDROID_HOME/licenses
+        echo "24333f8a63b6825ea9d5513f83c28d75354f9010" > $ANDROID_HOME/licenses/android-sdk-license
+        echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
+        echo "33b6a2b64f8aa17f4803714cb803705cb3918664" > $ANDROID_HOME/licenses/android-googletv-license
+        echo "d975f751698a77b39fa0d228a421bc98c373d782" > $ANDROID_HOME/licenses/intel-android-extra-license
+        echo "e9ac33c38d9d0da3829589f5e02e9c78d46fb120" > $ANDROID_HOME/licenses/android-sdk-arm-dbt-license
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       with:
         packages: 'ndk;27.1.12297006'
         cmdline-tools-version: 12266719
-
-    - name: Create Licenses Directory and Accept Licenses
-      run: |
-        mkdir -p $ANDROID_HOME/licenses
-        echo "24333f8a63b6825e72157d8517bc9a012fd57ca9" > $ANDROID_HOME/licenses/android-sdk-license
-        echo "84831b9409646a918e30573bab4c9c91346d8abd" >> $ANDROID_HOME/licenses/android-sdk-license
-        echo "859f2117b15a995764d84f29ed3715c9f5509a22" > $ANDROID_HOME/licenses/android-googletv-license
-        echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
 
     - name: Cache Gradle dependencies
       uses: actions/cache@v4
@@ -69,9 +66,9 @@ jobs:
     - name: Create .npmrc for legacy peer deps
       run: echo "legacy-peer-deps=true" > .npmrc
 
-    - name: Generate Android project files
+    - name: Generate Android project
       run: |
-        npx expo prebuild --platform android --clean
+        npx expo prebuild --platform android --no-install --clean
 
     - name: Fix AsyncStorage Repository
       run: |
