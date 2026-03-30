@@ -117,12 +117,24 @@ jobs:
         echo "859f2117b15a995764d84f29ed3715c9f5509a22" > $ANDROID_HOME/licenses/android-googletv-license
         echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
 
+    - name: Debug NDK and Environment
+      run: |
+        echo "=== NDK Debug Information ==="
+        echo "ANDROID_HOME: $ANDROID_HOME"
+        echo "NDK Version in project: $(grep -r 'ndkVersion' android/build.gradle | cut -d'=' -f2 | tr -d ' "')"
+        echo "Available NDK versions:"
+        ls -la $ANDROID_HOME/ndk/ || echo "NDK directory not found"
+        echo "=== Memory Information ==="
+        free -h
+        echo "=== Java Information ==="
+        java -version
+
     - name: Build Android APK (Universal)
       run: |
         cd android
         
-        # Build universal APK for both ARM64 and ARMv7
-        ./gradlew assembleRelease --stacktrace
+        # Build universal APK for both ARM64 and ARMv7 with detailed logging
+        ./gradlew assembleRelease --stacktrace --info
 
     - name: Upload APKs as GitHub Artifacts
       uses: actions/upload-artifact@v4
