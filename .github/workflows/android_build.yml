@@ -38,10 +38,9 @@ jobs:
         packages: "ndk;27.1.12297006"
         accept-android-sdk-licenses: false
 
-    - name: Force Accept SDK Licenses
+    - name: Accept Android SDK Licenses
       run: |
-        mkdir -p $ANDROID_HOME/licenses
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+        yes | $ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager --licenses || true
 
     - name: Cache Gradle dependencies
       uses: actions/cache@v4
@@ -117,7 +116,7 @@ jobs:
 
     - name: Build Android APK (Universal)
       run: |
-        export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/27.1.12297006
+        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.1.12297006
         cd android
         
         # Build universal APK for both ARM64 and ARMv7 with detailed logging in daemon-less mode
