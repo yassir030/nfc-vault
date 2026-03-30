@@ -40,6 +40,9 @@ jobs:
         
         # Install required Android SDK components
         yes | $HOME/cmdline-tools/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/Android/Sdk "platform-tools" "build-tools;34.0.0" "platforms;android-34"
+        
+        # Accept all Android SDK licenses automatically
+        yes | $HOME/cmdline-tools/cmdline-tools/bin/sdkmanager --licenses --sdk_root=$HOME/Android/Sdk
 
     - name: Cache Gradle dependencies
       uses: actions/cache@v4
@@ -60,16 +63,19 @@ jobs:
     - name: Create .npmrc for legacy peer deps
       run: echo "legacy-peer-deps=true" > .npmrc
 
+    - name: Generate Android project files
+      run: |
+        npx expo prebuild --platform android --clean
+
     - name: Create local.properties for Android SDK
       run: |
+        # Ensure android directory exists
+        mkdir -p android
+        
         if [ ! -f android/local.properties ]; then
           echo "sdk.dir=$ANDROID_HOME" > android/local.properties
           echo "ndk.dir=$ANDROID_NDK_HOME" >> android/local.properties
         fi
-
-    - name: Generate Android project files
-      run: |
-        npx expo prebuild --platform android --clean
         
     - name: Verify Android project generation
       run: |
