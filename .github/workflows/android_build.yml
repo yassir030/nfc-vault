@@ -35,12 +35,8 @@ jobs:
       id: setup-android
       uses: android-actions/setup-android@v3
       with:
-        packages: "ndk;27.1.12297006"
-        accept-android-sdk-licenses: false
-
-    - name: Accept Android SDK Licenses
-      run: |
-        yes | $ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager --licenses || true
+        packages: 'ndk;27.1.12297006, platforms;android-34, build-tools;34.0.0'
+        accept-android-sdk-licenses: true
 
     - name: Cache Gradle dependencies
       uses: actions/cache@v4
@@ -116,13 +112,8 @@ jobs:
 
     - name: Build Android APK (Universal)
       run: |
-        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.1.12297006
         cd android
-        
-        # Clean build state
         ./gradlew clean
-        
-        # Build universal APK for both ARM64 and ARMv7 with detailed logging in daemon-less mode
         ./gradlew assembleRelease --stacktrace --info --no-daemon
 
     - name: Upload APKs as GitHub Artifacts
