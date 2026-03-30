@@ -119,6 +119,9 @@ jobs:
         export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.1.12297006
         cd android
         
+        # Clean build state
+        ./gradlew clean
+        
         # Build universal APK for both ARM64 and ARMv7 with detailed logging in daemon-less mode
         ./gradlew assembleRelease --stacktrace --info --no-daemon
 
