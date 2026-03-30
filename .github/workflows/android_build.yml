@@ -40,6 +40,14 @@ jobs:
         # Accept all Android SDK licenses automatically
         yes | sdkmanager --licenses
 
+    - name: Create Android License Files
+      run: |
+        # Manually create license files to prevent license acceptance issues
+        mkdir -p $ANDROID_HOME/licenses
+        echo -e "24333f8a63b6825e72157d8517bc9a012fd57ca9\n84831b9409646a918e30573bab4c9c91346d8abd\n4940551c67ef104e767438318621455127244985\n79103e3f4f1076b1071d0e1325b7360e21c33f28\n8bc14631e78c859d04265d666d6a5e1d53356073\nd56263c2e40d00b1e442152a715f5c9e16262453" > $ANDROID_HOME/licenses/android-sdk-license
+        echo -e "859f2117b15a995764d84f29ed3715c9f5509a22" > $ANDROID_HOME/licenses/android-googletv-license
+        yes | sdkmanager --licenses
+
     - name: Cache Gradle dependencies
       uses: actions/cache@v4
       with:
