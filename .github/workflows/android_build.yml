@@ -33,19 +33,12 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       with:
-        cmdline-tools-version: 12266719
-        # We zetten dit op false om het handmatig via de shell te doen (betrouwbaarder)
-        accept-android-sdk-licenses: false 
+        packages: 'platform-tools build-tools;34.0.0 platforms;android-34'
 
     - name: Accept Android Licenses & Install Packages
       run: |
-        # Dit commando accepteert automatisch ALLE licenties door 'y' te sturen
-        mkdir -p ~/.android
-        touch ~/.android/repositories.cfg
-        yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME
-        
-        # Installeer de benodigde pakketten
-        sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+        # Accept all Android SDK licenses automatically
+        yes | sdkmanager --licenses
 
     - name: Cache Gradle dependencies
       uses: actions/cache@v4
