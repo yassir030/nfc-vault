@@ -36,6 +36,10 @@ jobs:
         api-level: 34
         build-tools: 34.0.0
         cmdline-tools: 11.0
+        repositories: |
+          maven { url 'https://www.jitpack.io' }
+          mavenCentral()
+          google()
 
     - name: Accept Android SDK licenses
       run: |
