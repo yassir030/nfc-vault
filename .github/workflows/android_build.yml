@@ -97,6 +97,26 @@ jobs:
         cd android
         ./gradlew --version
 
+    - name: Force Accept All Android Licenses
+      run: |
+        # Create licenses directory
+        mkdir -p $ANDROID_HOME/licenses
+        
+        # Accept all licenses automatically
+        yes | sdkmanager --licenses
+        
+        # Write official license hashes to bypass prompts entirely
+        echo "24333f8a63b6825e72157d8517bc9a012fd57ca9" > $ANDROID_HOME/licenses/android-sdk-license
+        echo "84831b9409646a918e30573bab4c9c91346d8abd" >> $ANDROID_HOME/licenses/android-sdk-license
+        echo "4940551c67ef104e767438318621455127244985" >> $ANDROID_HOME/licenses/android-sdk-license
+        echo "79103e3f4f1076b1071d0e1325b7360e21c33f28" >> $ANDROID_HOME/licenses/android-sdk-license
+        echo "8bc14631e78c859d04265d666d6a5e1d53356073" >> $ANDROID_HOME/licenses/android-sdk-license
+        echo "d56263c2e40d00b1e442152a715f5c9e16262453" >> $ANDROID_HOME/licenses/android-sdk-license
+        
+        # Google TV and Preview licenses
+        echo "859f2117b15a995764d84f29ed3715c9f5509a22" > $ANDROID_HOME/licenses/android-googletv-license
+        echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
+
     - name: Build Android APK (Universal)
       run: |
         cd android
