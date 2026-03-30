@@ -34,13 +34,16 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       with:
-        packages: 'ndk;27.1.12297006 platforms;android-34 build-tools;34.0.0'
+        packages: 'ndk;27.1.12297006'
         cmdline-tools-version: 12266719
 
-    - name: Force Accept Android Licenses
+    - name: Create Licenses Directory and Accept Licenses
       run: |
-        yes | sdkmanager --licenses || true
-        echo "y" | sdkmanager --install "ndk;27.1.12297006" "platforms;android-34" "build-tools;34.0.0"
+        mkdir -p $ANDROID_HOME/licenses
+        echo "24333f8a63b6825e72157d8517bc9a012fd57ca9" > $ANDROID_HOME/licenses/android-sdk-license
+        echo "84831b9409646a918e30573bab4c9c91346d8abd" >> $ANDROID_HOME/licenses/android-sdk-license
+        echo "859f2117b15a995764d84f29ed3715c9f5509a22" > $ANDROID_HOME/licenses/android-googletv-license
+        echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
 
     - name: Cache Gradle dependencies
       uses: actions/cache@v4
@@ -114,11 +117,15 @@ jobs:
         echo "=== Java Information ==="
         java -version
 
+    - name: Clean Project
+      run: |
+        cd android
+        ./gradlew clean
+
     - name: Build Android APK (Universal)
       run: |
         export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.1.12297006
         cd android
-        ./gradlew clean
         ./gradlew assembleRelease --stacktrace --info --no-daemon
 
     - name: Upload APKs as GitHub Artifacts
