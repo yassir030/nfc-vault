@@ -33,24 +33,19 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       with:
-        api-level: 34
-        build-tools: 34.0.0
-        cmdline-tools: 11.0
-        repositories: |
-          maven { url 'https://www.jitpack.io' }
-          mavenCentral()
-          google()
+          # Alleen geldige inputs gebruiken
+          cmdline-tools-version: 12266719
+          accept-android-sdk-licenses: true
 
-    - name: Accept Android SDK licenses
+    - name: Install Android Packages
       run: |
-        # Accept all Android SDK licenses automatically
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+        sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-    - name: Set Android environment variables
+    - name: Fix AsyncStorage Repository
       run: |
-        echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
-        echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> $GITHUB_ENV
-        echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> $GITHUB_ENV
+        # We voegen de repositories direct toe aan het build.gradle bestand 
+        # in plaats van via de setup-android actie
+        sed -i "s/google()/google()\n        maven { url 'https:\/\/www.jitpack.io' }/g" android/build.gradle
 
     - name: Cache Gradle dependencies
       uses: actions/cache@v4
