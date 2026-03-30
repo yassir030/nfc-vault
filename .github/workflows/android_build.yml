@@ -109,8 +109,42 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x android/gradlew
 
+    - name: Debug Android Setup
+      run: |
+        # Debug: Check actual SDK paths and create symlinks
+        echo "=== DEBUG: Android SDK Paths ==="
+        echo "ANDROID_HOME: $ANDROID_HOME"
+        echo "ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
+        echo "PATH: $PATH"
+        
+        # Create symlinks to ensure license files are found
+        if [ -d "/usr/local/lib/android/sdk" ] && [ ! -d "$ANDROID_HOME" ]; then
+          sudo ln -sf /usr/local/lib/android/sdk $ANDROID_HOME
+        fi
+        
+        if [ -d "/usr/local/lib/android/sdk/licenses" ]; then
+          sudo ln -sf /usr/local/lib/android/sdk/licenses $ANDROID_HOME/licenses
+        fi
+        
+        # List license files
+        echo "=== DEBUG: License Files ==="
+        ls -la $ANDROID_HOME/licenses/ || echo "No license files in ANDROID_HOME"
+        ls -la /usr/local/lib/android/sdk/licenses/ || echo "No license files in hardcoded path"
+
     - name: Build Android APK (Universal)
       run: |
+        # Export Android environment variables aggressively
+        export ANDROID_HOME=/usr/local/lib/android/sdk
+        export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+        export ANDROID_SDK_ROOT=/usr/local/lib/android/sdk
+        
+        # Create local.properties if android folder exists
+        if [ -d "android" ]; then
+          echo "sdk.dir=/usr/local/lib/android/sdk" > android/local.properties
+        else
+          echo "sdk.dir=/usr/local/lib/android/sdk" > local.properties
+        fi
+        
         cd android
         
         # Build universal APK for both ARM64 and ARMv7
