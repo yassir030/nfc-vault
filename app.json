@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "nfc-vault",
+    "slug": "nfc-vault",
+    "version": "1.0.0",
+    "versionCode": "1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/adaptive-icon.png"
+      },
+      "package": "com.yassir24.nfcvault",
+      "minSdkVersion": 21,
+      "compileSdkVersion": 34,
+      "targetSdkVersion": 34,
+      "newArchEnabled": false,
+      "permissions": ["android.permission.NFC", "android.permission.VIBRATE"],
+      "intentFilters": [
+        {
+          "action": "android.nfc.cardemulation.action.HOST_APDU_SERVICE",
+          "data": {
+            "mimeType": "application/vnd.android.drm"
+          }
+        }
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "react-native-nfc-manager"
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5ce613c3-1613-4e03-805a-a37eaec98669"
+      }
+    }
+  },
+  "cli": {
+    "appVersionSource": "local"
+  }
+}
