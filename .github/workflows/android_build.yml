@@ -34,6 +34,7 @@ jobs:
     - name: Inject Android Licenses Manually
       run: |
         mkdir -p $ANDROID_HOME/licenses
+        echo "601085b94cd77f0b54ff86406957099ebe79c4d6" > $ANDROID_HOME/licenses/android-googletv-license
         echo "24333f8a63b6825ea9d5513f83c28d75354f9010" > $ANDROID_HOME/licenses/android-sdk-license
         echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
         echo "33b6a2b64f8aa17f4803714cb803705cb3918664" > $ANDROID_HOME/licenses/android-googletv-license
