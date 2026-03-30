@@ -47,12 +47,6 @@ jobs:
         # Installeer de benodigde pakketten
         sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-    - name: Fix AsyncStorage Repository
-      run: |
-        # We voegen de repositories direct toe aan het build.gradle bestand 
-        # in plaats van via de setup-android actie
-        sed -i "s/google()/google()\n        maven { url 'https:\/\/www.jitpack.io' }/g" android/build.gradle
-
     - name: Cache Gradle dependencies
       uses: actions/cache@v4
       with:
@@ -75,6 +69,12 @@ jobs:
     - name: Generate Android project files
       run: |
         npx expo prebuild --platform android --clean
+
+    - name: Fix AsyncStorage Repository
+      run: |
+        # We voegen de repositories direct toe aan het build.gradle bestand 
+        # in plaats van via de setup-android actie
+        sed -i "s/google()/google()\n        maven { url 'https:\/\/www.jitpack.io' }/g" android/build.gradle
 
     - name: Create local.properties for Android SDK
       run: |
