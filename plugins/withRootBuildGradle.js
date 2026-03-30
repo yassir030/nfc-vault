@@ -1,12 +1,13 @@
-const { withProjectBuildGradle } = require('@expo/config-plugins');
+const { withProjectBuildGradle } = require('expo/config-plugins');
 
 module.exports = function withRootBuildGradle(config) {
   return withProjectBuildGradle(config, (config) => {
     const buildGradle = config.modResults;
+    let contents = buildGradle.contents || buildGradle;
     
     // Add JitPack repository to buildscript.repositories
-    if (!buildGradle.includes('maven { url \'https://www.jitpack.io\' }')) {
-      buildGradle = buildGradle.replace(
+    if (!contents.includes('maven { url \'https://www.jitpack.io\' }')) {
+      contents = contents.replace(
         /buildscript\s*\{[\s\S]*?repositories\s*\{/,
         (match) => {
           return match + '\n        maven { url \'https://www.jitpack.io\' }';
@@ -15,14 +16,14 @@ module.exports = function withRootBuildGradle(config) {
     }
     
     // Add JitPack repository to allprojects.repositories
-    if (!buildGradle.includes('allprojects')) {
+    if (!contents.includes('allprojects')) {
       // Add allprojects section if it doesn't exist
-      buildGradle = buildGradle.replace(
+      contents = contents.replace(
         /}\s*$/,
-        `\n\nallprojects {\n    repositories {\n        google()\n        mavenCentral()\n        maven { url \'https://www.jitpack.io\' }\n    }\n}`
+        `\n\nallprojects {\n    repositories {\n        google()\n        mavenCentral()\n        maven { url 'https://www.jitpack.io\' }\n    }\n}`
       );
     } else {
-      buildGradle = buildGradle.replace(
+      contents = contents.replace(
         /allprojects\s*\{[\s\S]*?repositories\s*\{/,
         (match) => {
           if (!match.includes('jitpack')) {
@@ -33,7 +34,7 @@ module.exports = function withRootBuildGradle(config) {
       );
     }
     
-    config.modResults = buildGradle;
+    buildGradle.contents = contents;
     return config;
   });
 };

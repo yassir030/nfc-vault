@@ -3,7 +3,6 @@
     "name": "nfc-vault",
     "slug": "nfc-vault",
     "version": "1.0.0",
-    "versionCode": "1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,9 +20,6 @@
         "foregroundImage": "./assets/adaptive-icon.png"
       },
       "package": "com.yassir24.nfcvault",
-      "minSdkVersion": 21,
-      "compileSdkVersion": 34,
-      "targetSdkVersion": 34,
       "newArchEnabled": false,
       "permissions": [
         "android.permission.NFC",
@@ -36,15 +32,17 @@
     "plugins": [
       [
         "react-native-nfc-manager"
-      ]
+      ],
+      [
+        "./plugins/withRootBuildGradle"
+      ],
+      "expo-font",
+      "expo-sqlite"
     ],
     "extra": {
       "eas": {
         "projectId": "5ce613c3-1613-4e03-805a-a37eaec98669"
       }
     }
-  },
-  "cli": {
-    "appVersionSource": "local"
   }
 }
