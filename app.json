@@ -36,6 +36,9 @@
     "plugins": [
       [
         "react-native-nfc-manager"
+      ],
+      [
+        "./plugins/withRootBuildGradle"
       ]
     ],
     "extra": {
