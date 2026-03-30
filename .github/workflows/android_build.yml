@@ -33,12 +33,18 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       with:
-          # Alleen geldige inputs gebruiken
-          cmdline-tools-version: 12266719
-          accept-android-sdk-licenses: true
+        cmdline-tools-version: 12266719
+        # We zetten dit op false om het handmatig via de shell te doen (betrouwbaarder)
+        accept-android-sdk-licenses: false 
 
-    - name: Install Android Packages
+    - name: Accept Android Licenses & Install Packages
       run: |
+        # Dit commando accepteert automatisch ALLE licenties door 'y' te sturen
+        mkdir -p ~/.android
+        touch ~/.android/repositories.cfg
+        yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME
+        
+        # Installeer de benodigde pakketten
         sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
     - name: Fix AsyncStorage Repository
