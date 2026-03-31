@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "nfc-vault",
-    "slug": "nfc-vault",
+    "name": "the-nfc-vault",
+    "slug": "the-nfc-vault",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,12 +15,7 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/adaptive-icon.png"
-      },
-      "package": "com.yassir24.nfcvault",
-      "newArchEnabled": false,
+      "package": "com.yassir99.nfcvault",
       "permissions": [
         "android.permission.NFC",
         "android.permission.VIBRATE"
@@ -30,6 +25,17 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 23,
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "abiFilters": ["armeabi-v7a", "arm64-v8a"]
+          }
+        }
+      ],
       [
         "react-native-nfc-manager"
       ],
@@ -41,11 +47,12 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "5ce613c3-1613-4e03-805a-a37eaec98669"
+        "projectId": "f6df8f95-4da8-426f-ae49-2453589701d3"
       }
     },
     "cli": {
       "appVersionSource": "local"
-    }
+    },
+    "owner": "yassir99"
   }
 }

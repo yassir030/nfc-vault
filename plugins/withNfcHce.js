@@ -18,7 +18,7 @@ module.exports = function withNfcHce(config) {
 
     const hceService = {
       $: {
-        'android:name': '.nfc.HceService',
+        'android:name': 'com.yassir24.nfcvault.nfc.HceService',
         'android:exported': 'true',
         'android:permission': 'android.permission.BIND_NFC_SERVICE',
         'android:enabled': 'true'
@@ -60,7 +60,7 @@ module.exports = function withNfcHce(config) {
 
     // Check if HCE service already exists
     const existingService = application.service.find(
-      service => service.$['android:name'] === '.nfc.HceService'
+      service => service.$['android:name'] === 'com.yassir24.nfcvault.nfc.HceService'
     );
 
     if (!existingService) {
