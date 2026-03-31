@@ -1,0 +1,69 @@
+---
+name: NFC Vault Android Build
+
+scripts:
+  - name: Setup Node.js
+    node: 20
+  - name: Setup Java
+    java: 17
+  
+  - name: Install dependencies
+    npm:
+      install: true
+  
+  - name: Apply Expo prebuild with HCE plugins
+    script: |
+      echo "Applying Expo prebuild with HCE configuration..."
+      npx expo prebuild --platform android --clean
+      echo "Prebuild completed successfully!"
+  
+  - name: Build APK
+    script: |
+      echo "Building APK with HCE support..."
+      cd android
+      chmod +x ./gradlew
+      ./gradlew assembleRelease
+      echo "APK build completed!"
+  
+artifacts:
+  - android/app/build/outputs/apk/release/*.apk
+  
+environment:
+  groups:
+    - codemagic_environment_variables
+
+triggers:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+workflows:
+  android-build:
+    name: Android APK Build
+    scripts:
+      - name: Setup Node.js
+        node: 20
+      - name: Setup Java
+        java: 17
+      - name: Install dependencies
+        npm:
+          install: true
+      - name: Apply Expo prebuild with HCE plugins
+        script: |
+          echo "Applying Expo prebuild with HCE configuration..."
+          npx expo prebuild --platform android --clean
+          echo "Prebuild completed successfully!"
+      - name: Build APK
+        script: |
+          echo "Building APK with HCE support..."
+          cd android
+          chmod +x ./gradlew
+          ./gradlew assembleRelease
+          echo "APK build completed!"
+    artifacts:
+      - android/app/build/outputs/apk/release/*.apk
