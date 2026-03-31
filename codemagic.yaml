@@ -1,0 +1,35 @@
+workflows:
+  android-build:
+    name: Android Build
+    max_build_duration: 60
+    instance_type: linux_medium
+    environment:
+      groups:
+        - keystore_credentials
+      vars:
+        NODE_VERSION: "20.x"
+        JAVA_VERSION: "17"
+      node: 20
+      java: 17
+    triggering:
+      events:
+        - push
+        - pull_request
+      branches:
+        - main
+        - master
+    scripts:
+      - name: Install dependencies
+        script: npm install
+      - name: Expo Prebuild
+        script: npx expo prebuild --platform android --clean
+      - name: Build Android APK
+        script: |
+          cd android
+          ./gradlew assembleRelease
+    artifacts:
+      - android/app/build/outputs/apk/release/*.apk
+    publishing:
+      email:
+        recipients:
+          - yassir24@example.com # Pas dit aan naar je eigen mail als je wilt
