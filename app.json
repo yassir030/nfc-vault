@@ -39,19 +39,14 @@
       [
         "react-native-nfc-manager"
       ],
-      [
-        "./plugins/withRootBuildGradle"
-      ],
       "expo-font",
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-system-ui"
     ],
     "extra": {
       "eas": {
         "projectId": "f6df8f95-4da8-426f-ae49-2453589701d3"
       }
-    },
-    "cli": {
-      "appVersionSource": "local"
     },
     "owner": "yassir99"
   }
