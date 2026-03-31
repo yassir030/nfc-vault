@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: NFC Vault Android Build
 
@@ -62,3 +63,34 @@ cache:
 # Build machine configuration
 machine:
   type: "linux-medium"  # Use Android build machine equivalent
+=======
+workflows:
+  android-build:
+    name: Android Build
+    max_build_duration: 60
+    instance_type: linux
+    environment:
+      groups:
+        - keystore_credentials
+      vars:
+        NODE_VERSION: "20.11.0"
+        JAVA_VERSION: "17"
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'main'
+        - pattern: 'master'
+    scripts:
+      - name: Install dependencies
+        script: npm install
+      - name: Expo Prebuild
+        script: npx expo prebuild --platform android --clean
+      - name: Build Android APK
+        script: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+    artifacts:
+      - android/app/build/outputs/apk/release/*.apk
+>>>>>>> 7bce4ee4ac1c2d3e253357479bf7963963d95b9f
